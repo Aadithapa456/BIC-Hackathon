@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import Sidebar from "./components/SideBar";
 import Report from "./Pages/Report";
+import LiveMap from "./Pages/LiveMap";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/home" element={<Home />}></Route>
             <Route path="/report" element={<Report />}></Route>
-            <Route path="/home" element={<Home />}></Route>
+            <Route path="/map" element={<LiveMap />}></Route>
             <Route path="/home" element={<Home />}></Route>
           </Routes>
         </div>

@@ -3,23 +3,26 @@ import React, { useState } from "react";
 const AddReport = () => {
   const [address, setAddress] = useState("");
   const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
   const handleReportSubmit = async (e) => {
     e.preventDefault();
     const userDetails = JSON.parse(localStorage.getItem("user"));
     // console.log(userDetails);
     try {
-      const response = await fetch("http://localhost:5000/api/auth", {
+      const response = await fetch("http://localhost:5000/api/report/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          address,
-          category,
+          userId: userDetails._id,
+          username: userDetails.username,
+          address: address,
+          category: category,
+          description: description,
           latitude: 26.4639257,
           longitude: 87.2743846,
-          userID: userDetails._id,
-          username: userDetails.username,
+          reportingTime: "2025-02-17 02:28:36",
         }),
       });
       const data = await response.json();
@@ -48,7 +51,7 @@ const AddReport = () => {
             id="incident"
             className="w-full p-2 border border-gray-300 rounded-md"
             value={category}
-            onSelect={(e) => setCategory(e.target.value)}
+            onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">Select incident type</option>
             <option value="TC">Traffic Congestion</option>
@@ -62,6 +65,8 @@ const AddReport = () => {
             id="incident-desc"
             placeholder="Describe the incident"
             className="w-full p-2 border border-gray-300 rounded-md"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
         <div className="submit-button">

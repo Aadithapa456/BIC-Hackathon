@@ -49,8 +49,8 @@ const Sidebar = () => {
         <div className="mt-4 flex items-center gap-3 p-4">
           <CarFront className="h-8 w-8 text-blue-600" />
           <div>
-            <h1 className="text-xl font-bold text-blue-600">Nepal Traffic</h1>
-            <p className="text-xs text-gray-500">Community Traffic Reports</p>
+            <h1 className="text-xl font-bold text-blue-600">AASA</h1>
+            <p className="text-[10px] text-gray-500">Report Traffic Problems</p>
           </div>
         </div>
 

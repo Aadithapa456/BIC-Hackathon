@@ -8,7 +8,7 @@ const ReportCard = ({ data }) => {
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">Heavy Traffic at Koteshwor</h3>
+          <h3 className="text-lg font-semibold text-gray-900">{data.title || "Test"}</h3>
           <div className="flex items-center gap-2 mt-1">
             <span className="text-sm text-gray-500">
               Reported by {data.username} • 5 minutes ago

@@ -7,7 +7,9 @@ const MyReport = () => {
     async function fetchMyReports() {
       try {
         const userDetails = JSON.parse(localStorage.getItem("user"));
-        const response = await fetch(`http://localhost:5000/api/report/user/${userDetails._id}`);
+        const response = await fetch(
+          `http://localhost:5000/api/report/my?userId=${userDetails._id}`
+        );
         const data = await response.json();
         setReports(data.reports);
       } catch (error) {

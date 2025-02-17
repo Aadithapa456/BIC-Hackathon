@@ -32,8 +32,25 @@ const getAllReports = async (req, res) => {
       );
       return distance < 10.0;
     });
+    const formattedFilteredReport = filteredReport.map((report) => ({
+      _id: report._id,
+      title: report.title,
+      userId: report.userId,
+      userName: report.username,
+      category: report.category,
+      description: report.description,
+      address: report.address,
+      reportingTime: report.reportingTime,
+      upVote: report.upVote,
+      downVote: report.downVote,
+      image: report.image,
+      latitude: report.latitude,
+      longitude: report.longitude,
+    }));
     // console.log(`Distance: ${distance.toFixed(2)} km`);
-    res.status(200).json({ message: "success", reports: filteredReport });
+    res
+      .status(200)
+      .json({ message: "success", reports: formattedFilteredReport });
   } catch (err) {
     res.status(500).json(err.message);
   }

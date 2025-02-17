@@ -1,9 +1,36 @@
 const Report = require("../model/reporting");
 const User = require("../model/user");
 
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Radius of the Earth in km
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distance in km
+}
+
 const getAllReports = async (req, res) => {
   try {
+    const { latitude, longitude } = req.body;
+    if (!latitude || !longitude)
+      return res
+        .status(400)
+        .json({ message: "latitude, longitude are required" });
     const foundReport = await Report.find();
+    const filteredReport = "";
+    const distance = getDistanceFromLatLonInKm(
+      26.46355944944203,
+      87.27786841801513,
+      latitude,
+      longitude
+    );
+    console.log(`Distance: ${distance.toFixed(2)} km`);
     res.status(200).json({ message: "success", reports: foundReport });
   } catch (err) {
     res.status(500).json(err.message);
@@ -24,6 +51,7 @@ const getMyReports = async (req, res) => {
 const createReport = async (req, res) => {
   try {
     const {
+      title,
       userId,
       username,
       category,
@@ -37,6 +65,7 @@ const createReport = async (req, res) => {
       longitude,
     } = req.body;
     if (
+      !title ||
       !userId ||
       !username ||
       !category ||
@@ -48,10 +77,11 @@ const createReport = async (req, res) => {
     )
       return res.status(400).json({
         message:
-          "userId, username, category, description, address, reportingTime, upVote, downVote, image, latitude and longitude are required",
+          "title, userId, username, category, description, address, reportingTime, upVote, downVote, image, latitude and longitude are required",
       });
 
     const newReport = await Report.create({
+      title,
       userId,
       username,
       category,
@@ -66,6 +96,7 @@ const createReport = async (req, res) => {
     });
     const formattedReport = {
       _id: newReport._id,
+      title: newReport.title,
       userId: newReport.userId,
       userName: newReport.username,
       category: newReport.category,

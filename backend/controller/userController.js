@@ -4,8 +4,22 @@ const ROLES_LIST = require("../config/rolesList");
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find();
-    res.status(200).json({ message: "successful", users: users });
+    const foundUsers = await User.find();
+    const formattedUsers = foundUsers.map((user) => ({
+      _id: user._id,
+      username: user.username,
+      role: user.role,
+      email: user.email,
+      number: user.number,
+      country: user.country,
+      region: user.region,
+      city: user.city,
+      address: user.address,
+      upVote: user.upVote,
+      downVote: user.downVote,
+      totalPost: user.totalPost,
+    }));
+    res.status(200).json({ message: "successful", users: formattedUsers });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -46,11 +60,14 @@ const createUser = async (req, res) => {
     const foundUser = await User.findOne({
       $or: [{ email: email }, { number: number }],
     });
-    const msg = foundUser.email === email ? "email" : "phoneNumber";
-    if (foundUser)
+
+    if (foundUser) {
+      const msg = foundUser.email === email ? "email" : "phoneNumber";
+
       return res.status(400).json({
         message: `${msg} already exists`,
       });
+    }
 
     if (!exists)
       return res.status(404).json({ message: `role ${role} not found` });
@@ -78,6 +95,9 @@ const createUser = async (req, res) => {
       region: newUser.region,
       city: newUser.city,
       address: newUser.address,
+      upVote: newUser.upVote,
+      downVote: newUser.downVote,
+      totalPost: newUser.totalPost,
     };
 
     res.status(201).json({
@@ -104,6 +124,9 @@ const updateUser = async (req, res) => {
       region,
       city,
       address,
+      upVote,
+      downVote,
+      totalPost,
     } = req.body;
     if (!foundUser) return res.status(404).json({ message: "User not found" });
     const updatedData = {
@@ -116,6 +139,9 @@ const updateUser = async (req, res) => {
       region: region || foundUser.region,
       city: city || foundUser.city,
       address: address || foundUser.address,
+      upVote: upVote || foundUser.upVote,
+      downVote: downVote || foundUser.downVote,
+      totalPost: totalPost || foundUser.totalPost,
     };
     const updatedUser = await User.findOneAndUpdate({ _id }, updatedData, {
       new: true,
@@ -131,6 +157,9 @@ const updateUser = async (req, res) => {
       region: updatedUser.region,
       city: updatedUser.city,
       address: updatedUser.address,
+      upVote: updatedUser.upVote,
+      downVote: updatedUser.downVote,
+      totalPost: updatedUser.totalPost,
     };
 
     res.status(200).json({

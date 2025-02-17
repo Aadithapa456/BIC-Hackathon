@@ -27,6 +27,9 @@ const handleLogin = async (req, res) => {
       region: foundUser.region,
       city: foundUser.city,
       address: foundUser.address,
+      upVote: foundUser.upVote,
+      downVote: foundUser.downVote,
+      totalPost: foundUser.totalPost,
     };
     res.status(200).json({
       message: "Login successful",

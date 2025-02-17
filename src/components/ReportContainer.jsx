@@ -4,7 +4,7 @@ const ReportContainer = () => {
   const [reports, setReports] = useState("");
   async function fetchReports() {
     try {
-      const response = await fetch("http://localhost:5000/api/report/all");
+      const response = await fetch("http://localhost:5000/api/report/all?latitude=26.463877091528392&longitude=87.27500445706382");
       const data = await response.json();
       console.log(data);
       setReports(data.reports);

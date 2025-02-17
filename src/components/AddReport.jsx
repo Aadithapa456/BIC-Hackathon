@@ -1,34 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const AddReport = () => {
   const [address, setAddress] = useState("");
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
-        },
-        (error) => {
-          console.error("Error getting geolocation: ", error);
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-  }, []);
+  const [latitude, setLatitude] = useState(26.4639257); // Random latitude
+  const [longitude, setLongitude] = useState(87.2743846); // Random longitude
 
   const handleReportSubmit = async (e) => {
     e.preventDefault();
     const userDetails = JSON.parse(localStorage.getItem("user"));
     try {
-      const response = await fetch("http://localhost:5000/api/report/create", {
+      const response = await fetch(`http://localhost:5000/api/report/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,8 +28,23 @@ const AddReport = () => {
           longitude: longitude,
           reportingTime: new Date().toISOString(),
         }),
+        // body: JSON.stringify({
+        //   title: "Accident",
+        //   userId: "67b2e567c498bbeba5e2a3b5",
+        //   username: "BIC",
+        //   category: "Fire",
+        //   description: "Fire in a house",
+        //   address: "Biratnagar-7, Bhrikuti chowk",
+        //   reportingTime: "2025-02-17 02:28:36",
+        //   // "upVote": "",
+        //   // "downVote": "",
+        //   // "image": "",
+        //   latitude: 26.463587471917545,
+        //   longitude: 87.27789972042355,
+        // }),
       });
       const data = await response.json();
+      console.log(data);
     } catch (error) {
       console.log(error.message);
     }
@@ -60,7 +59,7 @@ const AddReport = () => {
         <div className="title-input mt-4">
           <input
             type="text"
-            placeholder="Enable Title"
+            placeholder="Enter Title"
             className="w-full p-2 border border-gray-300 rounded-md"
             value={title}
             onChange={(e) => setTitle(e.target.value)}

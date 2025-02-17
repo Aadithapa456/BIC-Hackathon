@@ -1,6 +1,24 @@
 const Report = require("../model/reporting");
 const User = require("../model/user");
 
+const getAllReports = async (req, res) => {
+  try {
+    const foundReport = await Report.find();
+    res.status(200).json({ message: "success", reports: foundReport });
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
+
+const getMyReports = async (req, res) => {
+  try {
+    const foundReport = await Report.findMany();
+    res.status(200).json({ message: "success", reports: foundReport });
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
+
 const createReport = async (req, res) => {
   try {
     const {
@@ -67,4 +85,6 @@ const createReport = async (req, res) => {
   }
 };
 
-module.exports = createReport;
+const upDownVote = async (req, res) => {};
+
+module.exports = { getAllReports, createReport };

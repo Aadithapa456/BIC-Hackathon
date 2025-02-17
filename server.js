@@ -17,7 +17,9 @@ app.use(express.json());
 // middleware for cookie-parser
 // app.use(cookieParser());
 
-app.use("/test", require("./backend/routes/test"));
+app.use("/api/test", require("./backend/routes/test"));
+app.use("/api/users", require("./backend/routes/users"));
+app.use("/api/auth", require("./backend/routes/auth"));
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB ...");

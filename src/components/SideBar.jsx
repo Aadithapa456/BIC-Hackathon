@@ -13,7 +13,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 
 const sideBarContents = [
-  { name: "Dashboard", icon: <Home />, path: "/" },
+  { name: "Home", icon: <Home />, path: "/" },
   { name: "Report Incident", icon: <AlertTriangle />, path: "/report" },
   { name: "Live Map", icon: <Map />, path: "/map" },
   // { name: "Traffic Analytics", icon: <BarChart2 />, path: "/analytics" },

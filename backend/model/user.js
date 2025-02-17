@@ -11,6 +11,9 @@ const userSchema = mongoose.Schema(
     region: { type: String, default: "" },
     city: { type: String, default: "" },
     address: { type: String, default: "" },
+    upVote: { type: Number, default: 0 },
+    downVote: { type: Number, default: 0 },
+    totalPost: { type: Number, default: 0 },
     refreshToken: { type: String, default: "" },
   },
   { timestamps: true }

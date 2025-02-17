@@ -1,17 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 
 const AddReport = () => {
+  const [address, setAddress] = useState("");
+  const [category, setCategory] = useState("");
+  const handleReportSubmit = async (e) => {
+    e.preventDefault();
+    const userDetails = JSON.parse(localStorage.getItem("user"));
+    // console.log(userDetails);
+    try {
+      const response = await fetch("http://localhost:5000/api/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          address,
+          category,
+          latitude: 26.4639257,
+          longitude: 87.2743846,
+          userID: userDetails._id,
+          username: userDetails.username,
+        }),
+      });
+      const data = await response.json();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <div className="report-header mb-4">
         <h2 className="text-2xl font-bold text-primary">Add Report</h2>
       </div>
-      <div className="report-form space-y-4">
-        <div className="location-input">
+      <form className="report-form space-y-4 flex flex-col gap-4" onSubmit={handleReportSubmit}>
+        <div className="location-input mt-4">
           <input
             type="text"
             placeholder="Enable Location or enter Address"
             className="w-full p-2 border border-gray-300 rounded-md"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           />
         </div>
         <div className="incident-dropdown">
@@ -19,6 +47,8 @@ const AddReport = () => {
             name="incident"
             id="incident"
             className="w-full p-2 border border-gray-300 rounded-md"
+            value={category}
+            onSelect={(e) => setCategory(e.target.value)}
           >
             <option value="">Select incident type</option>
             <option value="TC">Traffic Congestion</option>
@@ -35,11 +65,14 @@ const AddReport = () => {
           ></textarea>
         </div>
         <div className="submit-button">
-          <button className="py-2 px-4 bg-blue-400 text-white rounded-md hover:bg-blue-500 transition duration-300">
+          <button
+            type="submit"
+            className="py-2 px-4 bg-blue-400 text-white rounded-md hover:bg-blue-500 transition duration-300"
+          >
             Submit Report
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

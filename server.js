@@ -20,6 +20,7 @@ app.use(express.json());
 app.use("/api/test", require("./backend/routes/test"));
 app.use("/api/users", require("./backend/routes/users"));
 app.use("/api/auth", require("./backend/routes/auth"));
+app.use("/api/report", require("./backend/routes/reporting"));
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB ...");

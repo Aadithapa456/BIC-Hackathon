@@ -17,20 +17,22 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 
 const getAllReports = async (req, res) => {
   try {
-    const { latitude, longitude } = req.body;
+    const { latitude, longitude } = req.query;
     if (!latitude || !longitude)
       return res
         .status(400)
         .json({ message: "latitude, longitude are required" });
     const foundReport = await Report.find();
-    const filteredReport = "";
-    const distance = getDistanceFromLatLonInKm(
-      26.46355944944203,
-      87.27786841801513,
-      latitude,
-      longitude
-    );
-    console.log(`Distance: ${distance.toFixed(2)} km`);
+    const filteredReport = foundReport.filter((location) => {
+      const distance = getDistanceFromLatLonInKm(
+        location.latitude,
+        location.longitude,
+        latitude,
+        longitude
+      );
+      return distance < 10.0;
+    });
+    // console.log(`Distance: ${distance.toFixed(2)} km`);
     res.status(200).json({ message: "success", reports: foundReport });
   } catch (err) {
     res.status(500).json(err.message);

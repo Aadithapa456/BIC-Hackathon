@@ -1,13 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const AddReport = () => {
   const [address, setAddress] = useState("");
   const [category, setCategory] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        (error) => {
+          console.error("Error getting geolocation: ", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
+
   const handleReportSubmit = async (e) => {
     e.preventDefault();
     const userDetails = JSON.parse(localStorage.getItem("user"));
-    // console.log(userDetails);
     try {
       const response = await fetch("http://localhost:5000/api/report/create", {
         method: "POST",
@@ -16,13 +35,14 @@ const AddReport = () => {
         },
         body: JSON.stringify({
           userId: userDetails._id,
+          title: title,
           username: userDetails.username,
           address: address,
           category: category,
           description: description,
-          latitude: 26.4639257,
-          longitude: 87.2743846,
-          reportingTime: "2025-02-17 02:28:36",
+          latitude: latitude,
+          longitude: longitude,
+          reportingTime: new Date().toISOString(),
         }),
       });
       const data = await response.json();
@@ -30,12 +50,22 @@ const AddReport = () => {
       console.log(error.message);
     }
   };
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <div className="report-header mb-4">
         <h2 className="text-2xl font-bold text-primary">Add Report</h2>
       </div>
       <form className="report-form space-y-4 flex flex-col gap-4" onSubmit={handleReportSubmit}>
+        <div className="title-input mt-4">
+          <input
+            type="text"
+            placeholder="Enable Title"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
         <div className="location-input mt-4">
           <input
             type="text"

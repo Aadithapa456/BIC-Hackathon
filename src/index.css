@@ -5,3 +5,6 @@
 #root {
   font-family: "Poppins", serif;
 }
+.container {
+  height: fit-content;
+}

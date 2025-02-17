@@ -3,9 +3,8 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./components/SideBar";
 
 const MainLayout = () => {
-    
   return (
-    <div className="container min-h-screen w-full h-full flex">
+    <div className="container min-h-screen w-full h-full min-w-[100%] flex">
       <div className="sidebar mr-6 lg:mr-16">
         <Sidebar />
       </div>
@@ -14,6 +13,6 @@ const MainLayout = () => {
       </div>
     </div>
   );
-};
+}; 
 
 export default MainLayout;

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const reportSchema = mongoose.Schema(
   {
     userId: { type: String, required: true },
+    title: { type: String, required: true },
     username: { type: String, required: true },
     category: { type: String, required: true },
     latitude: { type: String, required: true },

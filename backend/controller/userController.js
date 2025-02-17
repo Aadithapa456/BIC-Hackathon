@@ -43,6 +43,15 @@ const createUser = async (req, res) => {
     );
     console.log(exists);
 
+    const foundUser = await User.findOne({
+      $or: [{ email: email }, { number: number }],
+    });
+    const msg = foundUser.email === email ? "email" : "phoneNumber";
+    if (foundUser)
+      return res.status(400).json({
+        message: `${msg} already exists`,
+      });
+
     if (!exists)
       return res.status(404).json({ message: `role ${role} not found` });
 

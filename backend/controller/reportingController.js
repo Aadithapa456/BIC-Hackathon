@@ -33,7 +33,7 @@ const getAllReports = async (req, res) => {
       return distance < 10.0;
     });
     // console.log(`Distance: ${distance.toFixed(2)} km`);
-    res.status(200).json({ message: "success", reports: foundReport });
+    res.status(200).json({ message: "success", reports: filteredReport });
   } catch (err) {
     res.status(500).json(err.message);
   }

@@ -4,7 +4,7 @@ import Sidebar from "./components/SideBar";
 
 const MainLayout = () => {
   return (
-    <div className="container min-h-screen w-full h-full min-w-[100%] flex">
+    <div className="container min-h-screen w-full h-full min-w-[100%] flex lg:gap-60">
       <div className="sidebar mr-6 lg:mr-16">
         <Sidebar />
       </div>

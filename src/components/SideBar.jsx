@@ -42,8 +42,8 @@ const Sidebar = () => {
       </button>
 
       <div
-        className={`fixed inset-y-0 left-0 z-40 flex h-full w-64 flex-col bg-white px-6 py-2 shadow-lg transition-transform duration-300 
-        ${isMobile ? "translate-x-0" : "-translate-x-full"} lg:relative lg:translate-x-0`}
+        className={`fixed inset-y-0 left-0 z-40 flex h-full w-64 flex-col bg-white px-6 py-2 shadow-lg transition-transform duration-300
+        ${isMobile ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       >
         {/* Logo */}
         <div className="mt-4 flex items-center gap-3 p-4">

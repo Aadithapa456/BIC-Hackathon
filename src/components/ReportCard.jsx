@@ -1,8 +1,45 @@
 import React from "react";
 import { ThumbsUp, ThumbsDown, AlertCircle } from "lucide-react";
 
-const ReportCard = ({ data }) => {
-  console.log(data);
+const ReportCard = ({ data, onVote }) => {
+  const handleUpVote = async (id) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/report/vote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ _id: id, upVote: 1 }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        onVote(result.updatedReport);
+      } else {
+        console.error(result.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const handleDownVote = async (id) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/report/vote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ _id: id, downVote: 1 }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        onVote(result.updatedReport);
+      } else {
+        console.error(result.message);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
   return (
     <div className="bg-white rounded-lg shadow p-6 mb-4">
       {/* Header */}
@@ -31,14 +68,20 @@ const ReportCard = ({ data }) => {
 
       {/* Actions */}
       <div className="flex items-center gap-4">
-        <button className="flex items-center gap-2 px-3 py-1 rounded-md hover:bg-gray-100 transition-colors">
+        <button
+          className="flex items-center gap-2 px-3 py-1 rounded-md hover:bg-gray-100 transition-colors"
+          onClick={() => handleUpVote(data._id)}
+        >
           <ThumbsUp className="w-4 h-4 text-gray-600" />
-          <span className="text-sm font-medium text-gray-700">45</span>
+          <span className="text-sm font-medium text-gray-700">{data.upVote}</span>
         </button>
 
-        <button className="flex items-center gap-2 px-3 py-1 rounded-md hover:bg-gray-100 transition-colors">
+        <button
+          className="flex items-center gap-2 px-3 py-1 rounded-md hover:bg-gray-100 transition-colors"
+          onClick={() => handleDownVote(data._id)}
+        >
           <ThumbsDown className="w-4 h-4 text-gray-600" />
-          <span className="text-sm font-medium text-gray-700">5</span>
+          <span className="text-sm font-medium text-gray-700">{data.downVote}</span>
         </button>
       </div>
     </div>
